@@ -108,6 +108,7 @@ Always run `go test ./...` and `golangci-lint run ./...` before submitting chang
 - **Output**: every command supports a `--json` flag for machine-readable output; default is a human-readable table.
 - **GraphQL queries and mutations**: define typed Go structs (not raw strings) so the `hasura/go-graphql-client` can encode them safely.
 - **Error messages**: surface Linear API errors as human-readable text, not raw JSON, unless `--json` is set.
+- **Stdout vs stderr**: write all command output (tables, JSON results) to **stdout**; write all diagnostic messages, log lines, and errors to **stderr**. This allows callers to pipe or redirect command output cleanly.
 - **Rate limits**: Linear allows 1,500 req/hr for Personal API Keys and 500 req/hr for OAuth tokens. Expose rate-limit headers in `--verbose` mode and back off automatically.
 - **Command hierarchy**: `linear <resource> <verb> [flags]` — e.g. `linear issue list`, `linear issue create`.
 
