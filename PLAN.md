@@ -15,7 +15,9 @@ Linear's API supports two authentication methods:
 | **OAuth 2.0** | Multi-user / shared tooling |
 
 For the MVP we will use a **Personal API Key** passed via the environment
-variable `LINEAR_API_KEY` (or stored in a local config file `~/.linear-cli`).
+variable `LINEAR_API_KEY`. The key should not be stored in a plain-text
+dotfile; if persistent storage is required in the future, prefer an OS
+keychain or credential store (or at minimum a permissions-locked config file).
 
 ---
 
@@ -40,26 +42,26 @@ linear issue delete <issue-id>
 
 | Command | GraphQL operation |
 |---|---|
-| `issue list` | `query { issues { nodes { id title state { name } ... } } }` |
-| `issue get` | `query { issue(id: "…") { … } }` |
-| `issue create` | `mutation issueCreate(input: { title, teamId, … })` |
-| `issue update` | `mutation issueUpdate(id: "…", input: { … })` |
-| `issue delete` | `mutation issueDelete(id: "…")` |
+| `issue list` | `issues` |
+| `issue get` | `issue` |
+| `issue create` | `issueCreate` |
+| `issue update` | `issueUpdate` |
+| `issue delete` | `issueDelete` |
 
 ### Suggested tech stack
 
 | Concern | Choice | Rationale |
 |---|---|---|
-| Language | **TypeScript / Node.js** | Official Linear SDK is TypeScript-first |
-| API client | **@linear/sdk** | Strongly-typed, auto-generated from schema |
-| CLI framework | **commander** or **oclif** | Mature, widely used |
-| Config storage | **conf** | Cross-platform config file handling |
-| Output formatting | **cli-table3** + **chalk** | Clean table/colour output |
+| Language | **Go** | Single static binary, fast startup, minimal runtime dependencies |
+| CLI framework | **[Cobra](https://github.com/spf13/cobra)** | De-facto standard Go CLI framework, mature & widely used |
+| Config / flags | **[Viper](https://github.com/spf13/viper)** | Pairs with Cobra; handles env vars, config files, and flag binding |
+| GraphQL client | **[hasura/go-graphql-client](https://github.com/hasura/go-graphql-client)** | Actively maintained, idiomatic Go, typed struct-based queries |
+| Output formatting | **[tablewriter](https://github.com/olekurowiak/tablewriter)** | Simple table rendering, no heavy deps |
 
 ### MVP deliverables checklist
 
-- [ ] Project scaffold (TypeScript, `package.json`, tsconfig)
-- [ ] Auth helper — read `LINEAR_API_KEY` from env / config file
+- [ ] Project scaffold (Go module, `cmd/` layout, Cobra root command)
+- [ ] Auth helper — read `LINEAR_API_KEY` from env via Viper
 - [ ] `issue list` — paginated, filterable list of issues
 - [ ] `issue get` — show full detail for one issue
 - [ ] `issue create` — interactive + flag-driven creation
@@ -172,7 +174,7 @@ Register and manage Linear webhooks directly from the CLI using the
 linear tui
 ```
 
-A terminal UI (using **ink** or **blessed**) offering a keyboard-driven
+A terminal UI (using **[Bubble Tea](https://github.com/charmbracelet/bubbletea)**) offering a keyboard-driven
 dashboard: issue board, inline editing, cycle view, and notifications via
 webhooks.
 
@@ -194,5 +196,7 @@ automatically when approaching limits.
 
 - [Linear Developer Docs](https://developers.linear.app/docs)
 - [Linear GraphQL API](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)
-- [Linear TypeScript SDK](https://github.com/linear/linear/tree/master/packages/sdk)
 - [Personal API Key setup](https://linear.app/settings/api)
+- [Cobra — Go CLI framework](https://github.com/spf13/cobra)
+- [Viper — Go config management](https://github.com/spf13/viper)
+- [hasura/go-graphql-client](https://github.com/hasura/go-graphql-client)
