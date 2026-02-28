@@ -1,8 +1,6 @@
 package issue
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +12,7 @@ func newListCmd() *cobra.Command {
 		Short: "List Linear issues",
 		Long:  `List Linear issues, optionally filtered by team, state, or assignee.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			fmt.Fprintf(cmd.OutOrStdout(), "Would list issues (team=%q, state=%q, assignee=%q)\n", team, state, assignee)
+			cmd.Printf("Would list issues (team=%q, state=%q, assignee=%q)\n", team, state, assignee)
 			return nil
 		},
 	}

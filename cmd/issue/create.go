@@ -1,8 +1,6 @@
 package issue
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +13,7 @@ func newCreateCmd() *cobra.Command {
 		Short: "Create a new Linear issue",
 		Long:  `Create a new Linear issue with the given title and optional fields.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			fmt.Fprintf(cmd.OutOrStdout(),
+			cmd.Printf(
 				"Would create issue (title=%q, team=%q, description=%q, priority=%d, assignee=%q)\n",
 				title, team, description, priority, assignee,
 			)

@@ -1,8 +1,6 @@
 package issue
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +15,7 @@ func newUpdateCmd() *cobra.Command {
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			issueID := args[0]
-			fmt.Fprintf(cmd.OutOrStdout(),
+			cmd.Printf(
 				"Would update issue %q (title=%q, description=%q, state=%q, priority=%d, assignee=%q)\n",
 				issueID, title, description, state, priority, assignee,
 			)

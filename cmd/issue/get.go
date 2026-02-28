@@ -1,8 +1,6 @@
 package issue
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +12,7 @@ func newGetCmd() *cobra.Command {
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			issueID := args[0]
-			fmt.Fprintf(cmd.OutOrStdout(), "Would get issue %q\n", issueID)
+			cmd.Printf("Would get issue %q\n", issueID)
 			return nil
 		},
 	}
