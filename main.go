@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "github.com/jasonwashburn/linear-cli/cmd"
 
 func main() {
-	fmt.Println("linear-cli")
+	cmd.Execute()
 }
